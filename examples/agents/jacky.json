@@ -1,0 +1,32 @@
+{
+  "bot": "jacky",
+  "role": "Errands, bookings, and life admin",
+  "updated": "2026-10-30T14:20:00Z",
+  "stats": {
+    "tasks_completed": 17,
+    "errands_closed": 8
+  },
+  "activities": [
+    {
+      "date": "2026-10-30",
+      "title": "Library hold is in",
+      "summary": "The writing guide is on the hold shelf. Pickup is Thursday.",
+      "category": "errands",
+      "status": "waiting"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Booked the Fieldnote call",
+      "summary": "Used the slot Dash flagged. It still overlaps studio time, and that note stays visible.",
+      "category": "other",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-21",
+      "title": "Renewed the transit pass",
+      "summary": "Card is good through November. Receipt went to fin.",
+      "category": "other",
+      "status": "done"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "bot": "fin",
+  "role": "Receipts, balances, and short-term money",
+  "updated": "2026-10-29T15:00:00Z",
+  "stats": {
+    "tasks_completed": 9,
+    "receipts_logged": 14,
+    "budgets_checked": 4
+  },
+  "activities": [
+    {
+      "date": "2026-10-29",
+      "title": "Logged the studio paper receipt",
+      "summary": "Fieldnote café paper, $6.40, filed under this week’s cap.",
+      "category": "finance",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-26",
+      "title": "Checked the grocery cap",
+      "summary": "Under by a little. Did not move money around to celebrate.",
+      "category": "finance",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-22",
+      "title": "Flagged a duplicate subscription",
+      "summary": "Two charges for the same photo archive. Waiting on a reply from the desk.",
+      "category": "finance",
+      "status": "waiting"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "bot": "toob",
+  "role": "Longer videos and the upload queue",
+  "updated": "2026-10-27T16:00:00Z",
+  "stats": {
+    "tasks_completed": 8,
+    "uploads_published": 2,
+    "views_28d": 28024
+  },
+  "uploads": [
+    {
+      "title": "Desk tour: a week of notes",
+      "status": "published",
+      "date": "2026-10-27",
+      "views": 18420,
+      "link": "https://example.com/toob/desk-tour"
+    },
+    {
+      "title": "How I file a job lead",
+      "status": "published",
+      "date": "2026-10-21",
+      "views": 9604,
+      "link": "https://example.com/toob/job-lead"
+    },
+    {
+      "title": "Sunday reset, quietly",
+      "status": "scheduled",
+      "date": "2026-11-01",
+      "views": 0,
+      "link": "https://example.com/toob/sunday-reset"
+    },
+    {
+      "title": "Three tabs I closed",
+      "status": "editing",
+      "date": "2026-10-29",
+      "views": 0
+    }
+  ],
+  "activities": [
+    {
+      "date": "2026-10-27",
+      "title": "Desk tour is up",
+      "summary": "Longer cut of the week of notes. Comments are off for the first day.",
+      "category": "social",
+      "status": "done",
+      "link": "https://example.com/toob/desk-tour"
+    },
+    {
+      "date": "2026-10-21",
+      "title": "Job-lead video is up",
+      "summary": "Walks through filing a lead without naming a real company.",
+      "category": "social",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Sunday reset is still in the editor",
+      "summary": "Scheduled for Sunday. The middle section is long and needs a cut.",
+      "category": "social",
+      "status": "in_progress"
+    }
+  ]
+}

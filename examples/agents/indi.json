@@ -1,0 +1,50 @@
+{
+  "bot": "Indi",
+  "role": "Job scans and applications",
+  "updated": "2026-10-30T23:22:00Z",
+  "stats": {
+    "tasks_completed": 48,
+    "jobs_scanned": 186,
+    "applied": 14,
+    "interviews": 3,
+    "follow_ups": 9
+  },
+  "activities": [
+    {
+      "date": "2026-10-30",
+      "title": "Applied to Harborline",
+      "summary": "Product operations role. Used the operations resume and named the Paper Kite studio project.",
+      "category": "jobs",
+      "status": "done",
+      "link": "https://example.com/jobs/harborline-product-ops"
+    },
+    {
+      "date": "2026-10-30",
+      "title": "Scanned 22 new roles",
+      "summary": "Kept four. The rest wanted unpaid weekend trials or a city Simon is not moving to.",
+      "category": "jobs",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Interview hold with Paper Kite Studio",
+      "summary": "They asked for a portfolio link before offering a time. Waiting on Link to send the note.",
+      "category": "jobs",
+      "status": "waiting"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Tailored a resume for Glasspine",
+      "summary": "Operations version, one page. Dropped the older campus-job paragraph.",
+      "category": "jobs",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-24",
+      "title": "Passed on a weekend-trial role",
+      "summary": "Little Orbit wanted a free Saturday shift before an interview. Logged it as a no.",
+      "category": "jobs",
+      "status": "done"
+    }
+  ]
+}

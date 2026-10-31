@@ -1,0 +1,34 @@
+{
+  "bot": "Social Media Team",
+  "role": "Drafts, posts, and replies",
+  "updated": "2026-10-30T19:05:00Z",
+  "stats": {
+    "tasks_completed": 18,
+    "posts_drafted": 11,
+    "posts_published": 7
+  },
+  "activities": [
+    {
+      "date": "2026-10-30",
+      "title": "Drafted a Harborline note",
+      "summary": "Wrote it, did not publish it. Job applications stay off the public feed.",
+      "category": "social",
+      "status": "waiting"
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Published the quiet Sunday note",
+      "summary": "Short post about closing three tabs. tik cut a 20-second version the same day.",
+      "category": "social",
+      "status": "done",
+      "link": "https://example.com/posts/sunday-note"
+    },
+    {
+      "date": "2026-10-23",
+      "title": "Replied to three comments",
+      "summary": "Thanked two people and pointed the third at the job-lead video.",
+      "category": "social",
+      "status": "done"
+    }
+  ]
+}

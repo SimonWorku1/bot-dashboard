@@ -1,0 +1,34 @@
+{
+  "bot": "Dash",
+  "role": "Morning briefing and calendar cleanup",
+  "updated": "2026-10-30T22:05:00Z",
+  "mood": "steady",
+  "stats": {
+    "tasks_completed": 128,
+    "briefings_sent": 46,
+    "conflicts_caught": 7
+  },
+  "activities": [
+    {
+      "date": "2026-10-31",
+      "title": "Morning brief is on the desk",
+      "summary": "Flagged an overlap — the Fieldnote call sits on top of studio time. Left both where they are and wrote the clash down.",
+      "category": "other",
+      "status": "in_progress"
+    },
+    {
+      "date": "2026-10-30",
+      "title": "Cleared two duplicate reminders",
+      "summary": "The transit renewal and the library hold were each listed twice. One of each remains.",
+      "category": "other",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Week ahead, lightly",
+      "summary": "Five items on the week card. Nothing moved except a note that schooly has a memo due Friday.",
+      "category": "other",
+      "status": "done"
+    }
+  ]
+}

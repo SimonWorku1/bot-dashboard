@@ -1,0 +1,34 @@
+{
+  "bot": "iggy",
+  "role": "Coding sessions and repo chores",
+  "updated": "2026-10-30T23:05:00Z",
+  "stats": {
+    "tasks_completed": 31,
+    "pull_requests": 4,
+    "bugs_closed": 9
+  },
+  "activities": [
+    {
+      "date": "2026-10-31",
+      "title": "Empty state on the sample form",
+      "summary": "The form still collapses when the last row is removed. Fix is in progress on a sample branch.",
+      "category": "coding",
+      "status": "in_progress",
+      "link": "https://example.com/code/empty-state"
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Dates were slipping a day",
+      "summary": "Date-only values were parsed as UTC and landed on the previous evening. They are local dates now.",
+      "category": "coding",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-26",
+      "title": "Pull request for the filter chips",
+      "summary": "Opened it, described the empty search, and left the review to the morning.",
+      "category": "coding",
+      "status": "done"
+    }
+  ]
+}

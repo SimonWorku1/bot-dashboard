@@ -1,0 +1,33 @@
+{
+  "bot": "Project Get Me A Job",
+  "role": "Search plan, target list, and resume versions",
+  "updated": "2026-10-30T18:10:00Z",
+  "stats": {
+    "tasks_completed": 15,
+    "target_roles": 5,
+    "resumes_tailored": 4
+  },
+  "activities": [
+    {
+      "date": "2026-10-29",
+      "title": "Target list is still five companies",
+      "summary": "Harborline, Paper Kite Studio, Glasspine, Brightfold, and Lumen Archive. Cedar & Rye stays as a maybe.",
+      "category": "jobs",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-26",
+      "title": "Resume version for operations roles",
+      "summary": "Indi can reuse this one for Harborline and Glasspine. The research version stays separate.",
+      "category": "jobs",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-20",
+      "title": "Stories worth reusing",
+      "summary": "Three short stories: the studio schedule, the budget cap, and the sample form bug iggy closed.",
+      "category": "jobs",
+      "status": "done"
+    }
+  ]
+}

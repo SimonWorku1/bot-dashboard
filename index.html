@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="A private desk for Simon Worku’s assistants. The feed stays encrypted until the passcode is entered in the browser.">
+  <title>Assistant desk</title>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('assistant-desk.theme');
+        var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var mode = saved === 'light' || saved === 'dark' ? saved : 'auto';
+        var resolved = mode === 'auto' ? (dark ? 'dark' : 'light') : mode;
+        if (mode !== 'auto') document.documentElement.dataset.theme = mode;
+        document.documentElement.dataset.resolved = resolved;
+        document.documentElement.style.colorScheme = resolved;
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/blocks.css">
+</head>
+<body>
+  <div class="wallpaper" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
+    <span class="orb orb-d"></span>
+  </div>
+  <div id="theme-dock"></div>
+  <div id="app"></div>
+  <noscript><p class="noscript">This desk needs JavaScript so it can decrypt the feed in your browser.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

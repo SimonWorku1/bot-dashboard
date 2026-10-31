@@ -1,0 +1,70 @@
+{
+  "bot": "schooly",
+  "role": "Classes, deadlines, and study blocks",
+  "updated": "2026-10-30T07:15:00Z",
+  "stats": {
+    "tasks_completed": 33,
+    "assignments_tracked": 8,
+    "study_blocks": 12
+  },
+  "upcoming": [
+    {
+      "due": "2026-10-28",
+      "course": "Discrete Math",
+      "title": "Proof worksheet 6",
+      "type": "worksheet",
+      "status": "late"
+    },
+    {
+      "due": "2026-10-31",
+      "course": "Technical Writing",
+      "title": "Process memo draft",
+      "type": "draft",
+      "status": "in progress"
+    },
+    {
+      "due": "2026-11-03",
+      "course": "Intro to Economics",
+      "title": "Problem set 4",
+      "type": "problem set",
+      "status": "not started"
+    },
+    {
+      "due": "2026-11-05",
+      "course": "Studio Photography",
+      "title": "Contact sheet",
+      "type": "critique",
+      "status": "shooting"
+    },
+    {
+      "due": "2026-11-18",
+      "course": "Discrete Math",
+      "title": "Midterm review packet",
+      "type": "exam",
+      "status": "scheduled"
+    }
+  ],
+  "activities": [
+    {
+      "date": "2026-10-30",
+      "title": "Blocked 90 minutes for the memo",
+      "summary": "Friday morning, before the Fieldnote call. The outline is a process note about filing a job lead.",
+      "category": "school",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Proof worksheet is late",
+      "summary": "Worksheet 6 was due Wednesday. Left it marked late instead of hiding it.",
+      "category": "school",
+      "status": "in_progress"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Chapter 6 notes are in the study doc",
+      "summary": "Elasticity, in plain language, half a page. Enough to start problem set 4.",
+      "category": "school",
+      "status": "done"
+    }
+  ]
+}

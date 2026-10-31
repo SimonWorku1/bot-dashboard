@@ -1,0 +1,33 @@
+{
+  "bot": "Audit",
+  "role": "Checklists across the other bots",
+  "updated": "2026-10-30T16:40:00Z",
+  "stats": {
+    "tasks_completed": 22,
+    "checks_run": 15,
+    "issues_open": 2
+  },
+  "activities": [
+    {
+      "date": "2026-10-30",
+      "title": "Indi’s tracker matches Link",
+      "summary": "People replied is 11 in both places. Jobs scanned was not double-counted.",
+      "category": "jobs",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Two gaps in the finance folder",
+      "summary": "A café receipt is logged. The duplicate subscription is still marked waiting.",
+      "category": "finance",
+      "status": "in_progress"
+    },
+    {
+      "date": "2026-10-25",
+      "title": "Weekly pass",
+      "summary": "Nothing on fire. schooly’s late worksheet is the only red item.",
+      "category": "other",
+      "status": "done"
+    }
+  ]
+}
