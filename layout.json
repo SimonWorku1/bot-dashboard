@@ -1,0 +1,72 @@
+{
+  "owner": "Simon Worku",
+  "title": "Assistant desk",
+  "subtitle": "A private record of what the assistants have done.",
+  "blocks": [
+    {
+      "type": "stats-hero",
+      "title": "At a glance",
+      "size": "full"
+    },
+    {
+      "type": "filter-bar",
+      "size": "full",
+      "options": {
+        "order": ["Dash", "Indi", "Link", "Project Get Me A Job", "schooly", "Audit", "Social Media Team", "fin", "finnias", "iggy", "jacky", "tik", "toob"]
+      }
+    },
+    {
+      "type": "job-hunt",
+      "title": "Job hunt",
+      "size": "full",
+      "options": {
+        "scanBot": "Indi",
+        "outreachBot": "Link",
+        "intro": "Indi finds roles. Link starts the conversations.",
+        "funnel": [
+          { "bot": "Indi", "stat": "jobs_scanned", "label": "Jobs scanned" },
+          { "bot": "Indi", "stat": "applied", "label": "Applied" },
+          { "bot": "Link", "stat": "people_contacted", "label": "People contacted" },
+          { "bot": "Link", "stat": "people_replied", "label": "Replies" }
+        ]
+      }
+    },
+    {
+      "type": "upcoming-schoolwork",
+      "title": "Upcoming schoolwork",
+      "size": "half",
+      "options": { "bot": "schooly" }
+    },
+    {
+      "type": "uploads",
+      "title": "Uploads",
+      "size": "half",
+      "options": { "bot": "toob" }
+    },
+    {
+      "type": "recent-highlights",
+      "title": "Highlights",
+      "size": "half",
+      "options": { "limit": 4 }
+    },
+    {
+      "type": "category-breakdown",
+      "title": "By category",
+      "size": "half"
+    },
+    {
+      "type": "bot-grid",
+      "title": "Assistants",
+      "size": "full",
+      "options": {
+        "order": ["Dash", "Indi", "Link", "Project Get Me A Job", "schooly", "Audit", "Social Media Team", "fin", "finnias", "iggy", "jacky", "tik", "toob"]
+      }
+    },
+    {
+      "type": "activity-timeline",
+      "title": "Timeline",
+      "size": "full",
+      "options": { "limit": 8 }
+    }
+  ]
+}

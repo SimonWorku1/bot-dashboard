@@ -1,0 +1,43 @@
+{
+  "bot": "Link",
+  "role": "Outreach, follow-ups, and reply tracking",
+  "updated": "2026-10-30T20:48:00Z",
+  "stats": {
+    "tasks_completed": 37,
+    "people_contacted": 42,
+    "people_replied": 11,
+    "reply_rate": 0.262,
+    "intros_sent": 6
+  },
+  "activities": [
+    {
+      "date": "2026-10-30",
+      "title": "Two replies in",
+      "summary": "Harborline and Paper Kite both wrote back. Harborline wants a short call. Paper Kite asked for the portfolio link.",
+      "category": "jobs",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Wrote to three hiring managers",
+      "summary": "Glasspine, Brightfold, and Cedar & Rye. Each note is four sentences and names a real project.",
+      "category": "jobs",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Waiting on Brightfold",
+      "summary": "Bumped the thread once. No second bump until next week.",
+      "category": "jobs",
+      "status": "waiting"
+    },
+    {
+      "date": "2026-10-22",
+      "title": "Intro ask at Lumen Archive",
+      "summary": "Asked a fictional alum for a warm intro to the research desk. Draft is out, reply not in yet.",
+      "category": "jobs",
+      "status": "in_progress",
+      "link": "https://example.com/notes/lumen-intro"
+    }
+  ]
+}

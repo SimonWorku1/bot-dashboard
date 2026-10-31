@@ -1,0 +1,33 @@
+{
+  "bot": "tik",
+  "role": "Short clips and posting ideas",
+  "updated": "2026-10-30T21:15:00Z",
+  "stats": {
+    "tasks_completed": 12,
+    "clips_cut": 9,
+    "ideas_saved": 21
+  },
+  "activities": [
+    {
+      "date": "2026-10-30",
+      "title": "Cut a 20-second desk reset",
+      "summary": "From the Sunday note. Caption is one sentence. Not posted yet.",
+      "category": "social",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Saved three hooks",
+      "summary": "Posted none of them. The opener still needs a cleaner take.",
+      "category": "social",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-24",
+      "title": "Waiting on a better opener",
+      "summary": "The first take rushes the first two seconds. Leaving it until the next shoot.",
+      "category": "social",
+      "status": "waiting"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+/* Theme tokens. Color, blur, radius, and type live here.
+   Light values are on :root. Dark values are on :root[data-resolved="dark"].
+   The page sets data-resolved from prefers-color-scheme, unless Auto is overridden. */
+
+:root {
+  color-scheme: light;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --wallpaper: #e7eef8;
+  --ink: #1d1d1f;
+  --ink-soft: rgba(29, 29, 31, 0.76);
+  --ink-faint: rgba(29, 29, 31, 0.58);
+  --glass: rgba(255, 255, 255, 0.58);
+  --glass-strong: rgba(255, 255, 255, 0.78);
+  --glass-solid: #f5f7fb;
+  --glass-blur: 28px;
+  --glass-saturate: 180%;
+  --highlight: rgba(255, 255, 255, 0.92);
+  --edge: rgba(255, 255, 255, 0.55);
+  --shadow: 0 16px 50px rgba(36, 58, 90, 0.12), 0 2px 8px rgba(36, 58, 90, 0.06);
+  --hairline: rgba(24, 36, 56, 0.1);
+  --chip: rgba(255, 255, 255, 0.62);
+  --field: rgba(255, 255, 255, 0.76);
+  --field-border: rgba(24, 36, 56, 0.1);
+  --sheen: rgba(255, 255, 255, 0.45);
+  --rim: linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.2) 34%, rgba(255, 255, 255, 0.05) 62%, rgba(255, 255, 255, 0.48));
+  --accent: #0071e3;
+  --accent-press: #0064c8;
+  --on-accent: #ffffff;
+  --focus: #0071e3;
+  --danger: #b4233c;
+  --ok: #157a42;
+  --ok-bg: rgba(36, 168, 96, 0.16);
+  --warn: #8a5a00;
+  --warn-bg: rgba(255, 176, 46, 0.24);
+  --info-bg: rgba(0, 113, 227, 0.12);
+  --late-bg: rgba(196, 32, 56, 0.12);
+  --today-bg: rgba(0, 113, 227, 0.14);
+  --week-bg: rgba(255, 176, 46, 0.2);
+  --radius-xl: 30px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --radius-pill: 999px;
+  --orb-a: #ffb0cb;
+  --orb-b: #8eb7ff;
+  --orb-c: #79e6c6;
+  --orb-d: #ffc56b;
+  --orb-opacity: 0.9;
+  --cat-jobs: #0071e3;
+  --cat-school: #7a4de0;
+  --cat-social: #e24e8a;
+  --cat-finance: #0e8a5f;
+  --cat-coding: #0a7ea4;
+  --cat-other: #8d7356;
+  --cat-unknown: #5c6b7a;
+  --bar: #0071e3;
+  --selected: rgba(0, 113, 227, 0.16);
+}
+
+:root[data-resolved="dark"] {
+  color-scheme: dark;
+  --wallpaper: #070910;
+  --ink: #f5f5f7;
+  --ink-soft: rgba(245, 245, 247, 0.78);
+  --ink-faint: rgba(245, 245, 247, 0.6);
+  --glass: rgba(18, 22, 34, 0.52);
+  --glass-strong: rgba(16, 20, 32, 0.72);
+  --glass-solid: #161a26;
+  --highlight: rgba(255, 255, 255, 0.28);
+  --edge: rgba(255, 255, 255, 0.14);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.28);
+  --hairline: rgba(255, 255, 255, 0.1);
+  --chip: rgba(255, 255, 255, 0.08);
+  --field: rgba(8, 10, 16, 0.45);
+  --field-border: rgba(255, 255, 255, 0.12);
+  --sheen: rgba(255, 255, 255, 0.08);
+  --rim: linear-gradient(165deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08) 32%, rgba(255, 255, 255, 0.03) 60%, rgba(255, 255, 255, 0.22));
+  --accent: #0a84ff;
+  --accent-press: #0070e0;
+  --on-accent: #ffffff;
+  --focus: #4da3ff;
+  --danger: #ff8a9a;
+  --ok: #6ee7a8;
+  --ok-bg: rgba(80, 200, 140, 0.16);
+  --warn: #ffd27a;
+  --warn-bg: rgba(255, 190, 70, 0.16);
+  --info-bg: rgba(10, 132, 255, 0.18);
+  --late-bg: rgba(255, 90, 110, 0.16);
+  --today-bg: rgba(10, 132, 255, 0.2);
+  --week-bg: rgba(255, 190, 70, 0.14);
+  --orb-a: #6d5cff;
+  --orb-b: #ff4d8d;
+  --orb-c: #2ec8ff;
+  --orb-d: #46e0b4;
+  --orb-opacity: 0.55;
+  --cat-jobs: #64b5ff;
+  --cat-school: #c4b2ff;
+  --cat-social: #ff9ec4;
+  --cat-finance: #6ee7b8;
+  --cat-coding: #7ad7f0;
+  --cat-other: #e7d3b4;
+  --cat-unknown: #c5ced6;
+  --bar: #64b5ff;
+  --selected: rgba(10, 132, 255, 0.22);
+}

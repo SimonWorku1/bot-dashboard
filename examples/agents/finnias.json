@@ -1,0 +1,26 @@
+{
+  "bot": "finnias",
+  "role": "Longer-range money plans",
+  "updated": "2026-10-28T18:00:00Z",
+  "stats": {
+    "tasks_completed": 6,
+    "scenarios_run": 3,
+    "goals_tracked": 4
+  },
+  "activities": [
+    {
+      "date": "2026-10-28",
+      "title": "Three-month scenario",
+      "summary": "Included the job-search costs fin already logged. The emergency fund still covers the quiet case.",
+      "category": "finance",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-18",
+      "title": "Emergency fund note",
+      "summary": "Left the target where it was. No new goal this month.",
+      "category": "finance",
+      "status": "done"
+    }
+  ]
+}
