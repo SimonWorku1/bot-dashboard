@@ -8,9 +8,20 @@ import {
   dueBucket,
   formatStat,
   humanizeKey,
+  isCalendarDay,
   relativeTime,
   safeUrl,
 } from '../js/format.js';
+import {
+  applicationSeries,
+  axisMax,
+  companyName,
+  cumulative,
+  isApplication,
+  isScan,
+  responseRate,
+} from '../js/jobs-data.js';
+import { navItems, pageIdFromHash, resolvePage } from '../js/pages.js';
 import {
   canonicalize,
   mergePlaintext,
@@ -50,21 +61,84 @@ await check('format helpers', async () => {
   assert.equal(safeUrl('https://example.com/job'), 'https://example.com/job');
   assert.equal(safeUrl('javascript:alert(1)'), '');
   assert.equal(safeUrl('http://user:pass@example.com'), '');
+  assert.equal(isCalendarDay('2026-10-30'), true);
+  assert.equal(isCalendarDay('2026-02-31'), false);
+  assert.equal(isCalendarDay('nope'), false);
+});
+
+await check('jobs series', async () => {
+  const derived = applicationSeries({
+    activities: [
+      { date: '2026-10-30', title: 'Applied: Harborline' },
+      { date: '2026-10-30', title: 'Applied: Glasspine' },
+      { date: '2026-10-29', title: 'Applied to Somewhere' },
+      { date: '2026-10-28', title: 'Scanned 4 roles' },
+      { date: '2026-02-31', title: 'Applied: Impossible' },
+    ],
+  });
+  assert.equal(derived.derived, true);
+  assert.deepEqual(derived.points, [
+    { date: '2026-10-30', sent: 2, heard_back: 0, rejected: 0 },
+  ]);
+  const direct = applicationSeries({
+    daily: [
+      { date: '2026-10-30', sent: 2, heard_back: 1, rejected: 0 },
+      { date: '2026-10-30', sent: 1, heard_back: 0, rejected: 1 },
+      { date: '2026-10-29', sent: '1', heard_back: 0, rejected: 0 },
+      { date: 'nope', sent: 9, heard_back: 9, rejected: 9 },
+    ],
+    activities: [{ date: '2026-10-30', title: 'Applied: Ignore me for the chart' }],
+  });
+  assert.equal(direct.derived, false);
+  assert.deepEqual(direct.points, [
+    { date: '2026-10-29', sent: 1, heard_back: 0, rejected: 0 },
+    { date: '2026-10-30', sent: 3, heard_back: 1, rejected: 1 },
+  ]);
+  assert.equal(responseRate(direct.points), 1 / 4);
+  assert.equal(responseRate([{ sent: 0, heard_back: 0, rejected: 0 }]), null);
+  const running = cumulative(direct.points);
+  assert.equal(running[1].sent, 4);
+  assert.equal(running[1].heard_back, 1);
+  assert.equal(running[1].rejected, 1);
+  assert.equal(axisMax(0), 1);
+  assert.equal(axisMax(2), 2);
+  assert.equal(axisMax(14), 20);
+  assert.equal(isApplication({ title: 'Applied: Glasspine' }), true);
+  assert.equal(isApplication({ title: 'Applied to Harborline' }), true);
+  assert.equal(isApplication({ title: 'Scanned 22 new roles' }), false);
+  assert.equal(isScan({ title: 'Scanned 22 new roles' }), true);
+  assert.equal(companyName({ title: 'Applied: Glasspine' }), 'Glasspine');
+  assert.equal(companyName({ title: 'Applied to Harborline', company: 'Harborline' }), 'Harborline');
+  const layout = JSON.parse(fs.readFileSync(path.join(root, 'layout.json'), 'utf8'));
+  assert.equal(pageIdFromHash('', layout), 'desk');
+  assert.equal(pageIdFromHash('#jobs', layout), 'jobs');
+  assert.equal(pageIdFromHash('#jobs?x', layout), 'jobs');
+  assert.equal(pageIdFromHash('#nope', layout), 'desk');
+  assert.equal(resolvePage(layout, 'jobs').blocks.some((block) => block.type === 'jobs-trend'), true);
+  assert.deepEqual(navItems(layout).map((item) => item.id), ['desk', 'jobs']);
 });
 
 await check('layout blocks load', async () => {
   const layout = JSON.parse(fs.readFileSync(path.join(root, 'layout.json'), 'utf8'));
   assert.ok(Array.isArray(layout.blocks) && layout.blocks.length >= 6);
   const sizes = new Set(['full', 'wide', 'half', 'third']);
-  for (const block of layout.blocks) {
-    assert.match(block.type, /^[a-z0-9-]+$/);
-    if (block.size) assert.ok(sizes.has(block.size));
-    const mod = await import(pathToFileURL(path.join(root, 'blocks', `${block.type}.js`)).href);
-    assert.equal(typeof mod.render, 'function');
+  const lists = [layout.blocks, ...(layout.pages ? Object.values(layout.pages).map((page) => page.blocks) : [])];
+  for (const blocks of lists) {
+    assert.ok(Array.isArray(blocks) && blocks.length >= 1);
+    for (const block of blocks) {
+      assert.match(block.type, /^[a-z0-9-]+$/);
+      if (block.size) assert.ok(sizes.has(block.size));
+      const mod = await import(pathToFileURL(path.join(root, 'blocks', `${block.type}.js`)).href);
+      assert.equal(typeof mod.render, 'function');
+    }
   }
   const types = layout.blocks.map((block) => block.type);
   for (const required of ['stats-hero', 'filter-bar', 'activity-timeline', 'bot-grid', 'job-hunt', 'upcoming-schoolwork', 'uploads']) {
     assert.ok(types.includes(required), required);
+  }
+  const jobs = layout.pages.jobs.blocks.map((block) => block.type);
+  for (const required of ['jobs-kpis', 'jobs-trend', 'jobs-applications', 'jobs-scans', 'jobs-outreach', 'jobs-note']) {
+    assert.ok(jobs.includes(required), required);
   }
 });
 
@@ -81,6 +155,12 @@ await check('encrypt in node, decrypt with webcrypto', async () => {
     role: 'scans',
     updated: '2026-10-30T23:00:00Z',
     mood: 'steady',
+    extra_list: [{ name: 'keep' }],
+    daily: [
+      { date: '2026-10-30', sent: 2, heard_back: 1, rejected: 0, source: 'desk' },
+      { date: 'nope', sent: 4, heard_back: 0, rejected: 0 },
+      { date: '2026-10-29', sent: '1', heard_back: 0, rejected: 1 },
+    ],
     stats: { applied: 2, jobs_scanned: 10, tasks_completed: 4, reply_rate: '0.5' },
     activities: [
       {
@@ -151,6 +231,12 @@ await check('encrypt in node, decrypt with webcrypto', async () => {
   assert.deepEqual(opened.data, expected);
   const indiBot = opened.data.bots.find((bot) => bot.bot === 'Indi');
   assert.equal(indiBot.mood, 'steady');
+  assert.equal(indiBot.extra_list[0].name, 'keep');
+  assert.equal(indiBot.daily.length, 2);
+  assert.equal(indiBot.daily.find((row) => row.date === '2026-10-30').source, 'desk');
+  assert.equal(indiBot.daily.find((row) => row.date === '2026-10-30').sent, 2);
+  assert.equal(indiBot.daily.find((row) => row.date === '2026-10-29').sent, 1);
+  assert.equal(indiBot.daily.some((row) => row.date === 'nope'), false);
   assert.equal(indiBot.activities.find((item) => item.title.startsWith('Secret')).category, 'jobs');
   assert.equal(indiBot.activities.find((item) => item.title === 'Earlier').category, 'errands');
   assert.equal(indiBot.stats.reply_rate, 0.5);
@@ -169,6 +255,8 @@ await check('encrypt in node, decrypt with webcrypto', async () => {
     role: indi.role,
     mood: indi.mood,
     bot: indi.bot,
+    daily: indi.daily.slice().reverse(),
+    extra_list: indi.extra_list,
   }, null, 2));
   const second = syncFeed({ dir: agents, passcode: pass, out });
   assert.equal(second.changed, false);
@@ -209,8 +297,19 @@ await check('sample feed unlocks with demo', async () => {
   for (const name of ['Dash', 'Indi', 'Link', 'Project Get Me A Job', 'schooly', 'Audit', 'Social Media Team', 'fin', 'finnias', 'iggy', 'jacky', 'tik', 'toob']) {
     assert.ok(names.includes(name), name);
   }
-  assert.equal(opened.data.bots.find((bot) => bot.bot === 'Indi').stats.jobs_scanned, 186);
-  assert.equal(opened.data.bots.find((bot) => bot.bot === 'Link').stats.reply_rate, 0.262);
+  const sampleIndi = opened.data.bots.find((bot) => bot.bot === 'Indi');
+  assert.equal(sampleIndi.stats.jobs_scanned, 186);
+  assert.equal(sampleIndi.stats.applications_submitted, 14);
+  assert.equal(sampleIndi.stats.rejections, 4);
+  assert.equal(sampleIndi.daily.reduce((sum, row) => sum + row.sent, 0), 14);
+  assert.equal(sampleIndi.daily.reduce((sum, row) => sum + row.heard_back, 0), 6);
+  assert.equal(sampleIndi.daily.reduce((sum, row) => sum + row.rejected, 0), 4);
+  assert.equal(typeof sampleIndi.stats_note, 'string');
+  assert.ok(sampleIndi.stats_note.includes('Heard back'));
+  const sampleLink = opened.data.bots.find((bot) => bot.bot === 'Link');
+  assert.equal(sampleLink.stats.reply_rate, 0.262);
+  assert.equal(sampleLink.stats.awaiting_reply, 18);
+  assert.equal(typeof sampleLink.stats_note, 'string');
   assert.ok(opened.data.bots.find((bot) => bot.bot === 'schooly').upcoming.some((item) => item.title === 'Proof worksheet 6'));
   assert.ok(opened.data.bots.find((bot) => bot.bot === 'toob').uploads.some((item) => item.views === 18420));
   assert.equal(opened.data.bots.find((bot) => bot.bot === 'Dash').mood, 'steady');

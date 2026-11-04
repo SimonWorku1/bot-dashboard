@@ -53,3 +53,9 @@ Stats are an open set of keys. `metrics(bot.stats)` humanizes `people_replied` t
 A bot may also have `upcoming` (`due`, `course`, `title`, `type`, `status`) and `uploads` (`title`, `status`, `date`, `views`, `link`). Unknown activity categories are kept.
 
 Colors, blur, and corner radius live in `css/tokens.css`, not in the block.
+
+## A second page
+
+`layout.json` may include `nav` and `pages`. The desk itself stays in `blocks`. Each page has a `title`, a `subtitle`, and a `blocks` array in the same shape. The jobs page is `pages.jobs`, opened at `#jobs`.
+
+Indi may include `daily` (`date`, `sent`, `heard_back`, `rejected`) and a `stats_note` string. The jobs blocks read those. `heard_back` means a non-rejection response. If `daily` is missing, the chart derives sent from activities titled `Applied:` and leaves the other two lines at 0.

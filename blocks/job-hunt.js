@@ -29,9 +29,10 @@ export function render(container, ctx) {
       ...(scan ? botHaystack(scan) : []),
       ...(outreach ? botHaystack(outreach) : []),
     ];
+    const details = h('a', { class: 'text-link', href: '#jobs' }, 'Jobs page');
     if (!textMatch(filters.query, hay)) {
       container.replaceChildren(
-        blockHead(ctx.block.title || 'Job hunt'),
+        blockHead(ctx.block.title || 'Job hunt', details),
         emptyNote('Nothing in this block matches the search.'),
       );
       return;
@@ -49,7 +50,7 @@ export function render(container, ctx) {
     const max = steps.reduce((highest, step) => Math.max(highest, step.value || 0), 0);
     const rate = rateLine(outreach);
     container.replaceChildren(
-      blockHead(ctx.block.title || 'Job hunt'),
+      blockHead(ctx.block.title || 'Job hunt', details),
       h('p', { class: 'lede' }, intro),
       h('div', { class: 'funnel', role: 'list' }, steps.map((step) => h('div', { class: 'funnel-step', role: 'listitem' }, [
         h('b', {}, step.value == null ? '—' : formatCount(step.value)),

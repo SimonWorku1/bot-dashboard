@@ -35,6 +35,7 @@ export function activityMatches(bot, activity, filters = {}, pinned = {}) {
     bot.role,
     activity.title,
     activity.summary,
+    activity.company,
     activity.category,
     activity.status,
   ]);
@@ -84,7 +85,7 @@ export function botHaystack(bot) {
     bot.bot,
     bot.role,
     ...Object.keys(bot.stats || {}),
-    ...(bot.activities || []).flatMap((activity) => [activity.title, activity.summary, activity.category]),
+    ...(bot.activities || []).flatMap((activity) => [activity.title, activity.summary, activity.company, activity.category]),
     ...(bot.upcoming || []).flatMap((item) => [item.title, item.course, item.type, item.status]),
     ...(bot.uploads || []).flatMap((item) => [item.title, item.status]),
   ];

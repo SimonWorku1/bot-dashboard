@@ -2,11 +2,13 @@
   "bot": "Link",
   "role": "Outreach, follow-ups, and reply tracking",
   "updated": "2026-10-30T20:48:00Z",
+  "stats_note": "Reply rate is people who wrote back divided by people contacted. Awaiting reply is still open: no reply yet, and the thread has not been closed.",
   "stats": {
     "tasks_completed": 37,
     "people_contacted": 42,
     "people_replied": 11,
     "reply_rate": 0.262,
+    "awaiting_reply": 18,
     "intros_sent": 6
   },
   "activities": [
