@@ -2,7 +2,7 @@
 
 A static desk for Simon Worku’s assistants. GitHub Pages serves this repo from `main` at the site root. There is no build step. The page is plain HTML, CSS, and ES modules.
 
-The site is public. The feed is not. `data/feed.enc.json` is encrypted, and the browser decrypts it with a passcode after the lock screen. The sample feed unlocks with **`demo`**. That feed is fake. Replace it by running the sync against the real agent folder and a real passcode.
+The site is public. The feed is not. `data/feed.enc.json` is the live encrypted feed, and the browser decrypts it with a passcode after the lock screen. The fake sample is `examples/feed.enc.json`. It unlocks with **`demo`**, and the page loads it only when the URL has `?demo`. Leave `data/feed.enc.json` alone when you refresh the sample.
 
 ## Pages
 
@@ -83,10 +83,10 @@ The sync is meant to run every few hours. Unchanged runs stay quiet because the 
 15 */3 * * * cd /path/to/bot-dashboard && DASHBOARD_PASSCODE='…' ./scripts/sync.sh /home/box/shared/bot-dashboard/agents
 ```
 
-Regenerate the committed sample after editing the fake fixtures:
+Regenerate the committed sample after editing the fake fixtures. This writes `examples/feed.enc.json` and does not touch the live feed:
 
 ```bash
-DASHBOARD_PASSCODE=demo node scripts/sync.mjs examples/agents
+DASHBOARD_PASSCODE=demo DASHBOARD_OUT=examples/feed.enc.json node scripts/sync.mjs examples/agents
 ```
 
 Check the Node encrypt against the browser decrypt:
@@ -99,7 +99,7 @@ Needs Node 18 or newer. No npm packages.
 
 ### Envelope
 
-`data/feed.enc.json` is the only data file the site fetches.
+`data/feed.enc.json` is the live feed the site fetches. `?demo` fetches `examples/feed.enc.json` instead.
 
 | Field | Meaning |
 | --- | --- |
@@ -133,4 +133,4 @@ From the repo root:
 python3 -m http.server 4173
 ```
 
-Open `http://127.0.0.1:4173` and enter `demo`.
+Open `http://127.0.0.1:4173/?demo` and enter `demo`. Without `?demo` the page loads the live feed in `data/feed.enc.json`.

@@ -6,6 +6,9 @@ import { navItems, pageIdFromHash, resolvePage } from './pages.js';
 import { mountThemeSwitch, watchTheme } from './theme.js';
 import { ago, h, lockIcon } from './ui.js';
 
+const LIVE_FEED_URL = './data/feed.enc.json';
+const DEMO_FEED_URL = './examples/feed.enc.json';
+
 const app = document.querySelector('#app');
 const themeDock = document.querySelector('#theme-dock');
 
@@ -14,14 +17,20 @@ mountThemeSwitch(themeDock);
 
 let unmount = null;
 let envelope = null;
+let demoFeed = false;
 
 boot();
 
+function feedUrl() {
+  demoFeed = new URLSearchParams(window.location.search).has('demo');
+  return demoFeed ? DEMO_FEED_URL : LIVE_FEED_URL;
+}
+
 async function boot() {
   try {
-    envelope = await loadJson('./data/feed.enc.json');
+    envelope = await loadJson(feedUrl());
   } catch {
-    renderMessage('The encrypted feed is missing.');
+    renderMessage(demoFeed ? 'The sample feed is missing.' : 'The encrypted feed is missing.');
     return;
   }
   const sessionKey = await readSession(envelope);
@@ -65,7 +74,9 @@ function showLock(message = '') {
   const card = h('section', { class: 'glass lock-card' }, [
     h('p', { class: 'eyebrow' }, 'Private'),
     h('h1', {}, 'Assistant desk'),
-    h('p', { class: 'lede' }, 'The notes are sealed. Enter the passcode to open them on this device.'),
+    h('p', { class: 'lede' }, demoFeed
+      ? 'This is the sample feed. The passcode is demo.'
+      : 'The notes are sealed. Enter the passcode to open them on this device.'),
     form,
     envelope?.updated ? h('p', { class: 'sealed' }, ['Last sealed ', ago(envelope.updated), '.']) : null,
   ]);

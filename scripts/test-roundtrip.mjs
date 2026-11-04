@@ -281,7 +281,9 @@ await check('encrypt in node, decrypt with webcrypto', async () => {
 });
 
 await check('sample feed unlocks with demo', async () => {
-  const out = path.join(root, 'data', 'feed.enc.json');
+  const live = path.join(root, 'data', 'feed.enc.json');
+  const out = path.join(root, 'examples', 'feed.enc.json');
+  const liveBefore = fs.readFileSync(live);
   const before = fs.readFileSync(out);
   const result = syncFeed({
     dir: path.join(root, 'examples', 'agents'),
@@ -290,6 +292,7 @@ await check('sample feed unlocks with demo', async () => {
   });
   assert.equal(result.changed, false);
   assert.deepEqual(fs.readFileSync(out), before);
+  assert.deepEqual(fs.readFileSync(live), liveBefore);
   const envelope = JSON.parse(before.toString('utf8'));
   assert.ok(envelope.iterations >= 250000);
   const opened = await decryptFeed(envelope, 'demo');
