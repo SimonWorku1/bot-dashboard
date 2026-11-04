@@ -3,11 +3,16 @@ const RATE_KEY = /rate|ratio|percent|pct/i;
 const LEADING_STATS = [
   'tasks_completed',
   'jobs_scanned',
+  'applications_submitted',
   'applied',
+  'applications_in_progress',
   'interviews',
+  'rejections',
+  'applications_blocked',
   'follow_ups',
   'people_contacted',
   'people_replied',
+  'awaiting_reply',
   'reply_rate',
 ];
 
@@ -84,10 +89,22 @@ function startOfDay(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
+export function isCalendarDay(isoDate) {
+  return Boolean(parseDay(String(isoDate || '').slice(0, 10)));
+}
+
 export function shortDate(isoDate, now = new Date()) {
   const day = parseDay(isoDate);
   if (!day) return '';
   const options = { month: 'short', day: 'numeric' };
+  if (day.getFullYear() !== now.getFullYear()) options.year = 'numeric';
+  return new Intl.DateTimeFormat('en-US', options).format(day);
+}
+
+export function mediumDate(isoDate, now = new Date()) {
+  const day = parseDay(isoDate);
+  if (!day) return '';
+  const options = { weekday: 'short', month: 'short', day: 'numeric' };
   if (day.getFullYear() !== now.getFullYear()) options.year = 'numeric';
   return new Intl.DateTimeFormat('en-US', options).format(day);
 }

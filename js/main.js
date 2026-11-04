@@ -2,8 +2,12 @@ import { onMinute } from './clock.js';
 import { clearSession, decryptFeed, decryptWithKey, readSession, saveSession } from './crypto.js';
 import { relativeTime } from './format.js';
 import { mountLayout } from './layout.js';
+import { navItems, pageIdFromHash, resolvePage } from './pages.js';
 import { mountThemeSwitch, watchTheme } from './theme.js';
 import { ago, h, lockIcon } from './ui.js';
+
+const LIVE_FEED_URL = './data/feed.enc.json';
+const DEMO_FEED_URL = './examples/feed.enc.json';
 
 const app = document.querySelector('#app');
 const themeDock = document.querySelector('#theme-dock');
@@ -13,14 +17,20 @@ mountThemeSwitch(themeDock);
 
 let unmount = null;
 let envelope = null;
+let demoFeed = false;
 
 boot();
 
+function feedUrl() {
+  demoFeed = new URLSearchParams(window.location.search).has('demo');
+  return demoFeed ? DEMO_FEED_URL : LIVE_FEED_URL;
+}
+
 async function boot() {
   try {
-    envelope = await loadJson('./data/feed.enc.json');
+    envelope = await loadJson(feedUrl());
   } catch {
-    renderMessage('The encrypted feed is missing.');
+    renderMessage(demoFeed ? 'The sample feed is missing.' : 'The encrypted feed is missing.');
     return;
   }
   const sessionKey = await readSession(envelope);
@@ -64,7 +74,9 @@ function showLock(message = '') {
   const card = h('section', { class: 'glass lock-card' }, [
     h('p', { class: 'eyebrow' }, 'Private'),
     h('h1', {}, 'Assistant desk'),
-    h('p', { class: 'lede' }, 'The notes are sealed. Enter the passcode to open them on this device.'),
+    h('p', { class: 'lede' }, demoFeed
+      ? 'This is the sample feed. The passcode is demo.'
+      : 'The notes are sealed. Enter the passcode to open them on this device.'),
     form,
     envelope?.updated ? h('p', { class: 'sealed' }, ['Last sealed ', ago(envelope.updated), '.']) : null,
   ]);
@@ -131,11 +143,15 @@ async function openDesk(feed) {
   const shell = h('div', { class: 'shell' });
   const age = h('span', { class: 'feed-age' }, envelope?.updated ? `Sealed ${relativeTime(envelope.updated)}` : '');
   const themeSlot = h('div', {});
+  const subtitle = h('p', { class: 'subtitle' }, layout.subtitle || '');
+  if (!layout.subtitle) subtitle.hidden = true;
+  const navSlot = h('div', { class: 'nav-slot' });
   const topbar = h('header', { class: 'topbar glass' }, [
-    h('div', {}, [
+    h('div', { class: 'topbar-copy' }, [
       layout.owner ? h('p', { class: 'eyebrow' }, layout.owner) : null,
       h('h1', {}, layout.title || 'Assistant desk'),
-      layout.subtitle ? h('p', { class: 'subtitle' }, layout.subtitle) : null,
+      subtitle,
+      navSlot,
     ]),
     h('div', { class: 'topbar-actions' }, [
       age,
@@ -158,14 +174,57 @@ async function openDesk(feed) {
   );
   app.replaceChildren(shell);
   mountThemeSwitch(themeSlot);
-  const stopBlocks = await mountLayout(grid, layout, { feed, store, layout });
+
+  let stopBlocks = () => {};
+  let generation = 0;
+  const syncChrome = () => {
+    const top = Number.parseFloat(getComputedStyle(topbar).top) || 0;
+    document.documentElement.style.setProperty('--topbar-clearance', `${Math.ceil(top + topbar.offsetHeight + 8)}px`);
+  };
+  const chromeObserver = new ResizeObserver(syncChrome);
+  chromeObserver.observe(topbar);
+
+  async function showPage() {
+    const token = ++generation;
+    stopBlocks();
+    stopBlocks = () => {};
+    const page = resolvePage(layout, pageIdFromHash(location.hash, layout));
+    shell.dataset.page = page.id;
+    navSlot.replaceChildren(renderNav(layout, page.id));
+    subtitle.textContent = page.subtitle || '';
+    subtitle.hidden = !page.subtitle;
+    const deskTitle = layout.title || 'Assistant desk';
+    document.title = page.id === 'desk' ? deskTitle : `${page.title} · ${deskTitle}`;
+    grid.replaceChildren();
+    const stop = await mountLayout(grid, { blocks: page.blocks }, { feed, store, layout });
+    if (token !== generation) {
+      stop();
+      return;
+    }
+    stopBlocks = stop;
+    syncChrome();
+  }
+
+  const onHash = () => { void showPage(); };
+  window.addEventListener('hashchange', onHash);
   const tick = onMinute(() => {
     if (envelope?.updated) age.textContent = `Sealed ${relativeTime(envelope.updated)}`;
   });
   unmount = () => {
+    generation += 1;
+    window.removeEventListener('hashchange', onHash);
+    chromeObserver.disconnect();
     stopBlocks();
     tick();
   };
+  await showPage();
+}
+
+function renderNav(layout, currentId) {
+  return h('nav', { class: 'desk-nav', 'aria-label': 'Sections' }, navItems(layout).map((item) => h('a', {
+    href: `#${item.id}`,
+    'aria-current': item.id === currentId ? 'page' : null,
+  }, item.label)));
 }
 
 function renderMessage(text) {

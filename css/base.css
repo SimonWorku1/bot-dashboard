@@ -422,10 +422,50 @@ a {
 
 .block[data-type="filter-bar"] {
   position: sticky;
-  top: 96px;
+  top: var(--topbar-clearance, 112px);
   z-index: 5;
   padding-top: 14px;
   padding-bottom: 14px;
+}
+
+.desk-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 12px;
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--chip);
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+.desk-nav a {
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.desk-nav a[aria-current="page"] {
+  background: var(--glass-strong);
+  color: var(--ink);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .footnote,
@@ -456,7 +496,6 @@ a {
     border-radius: 24px;
     top: 8px;
   }
-  .block[data-type="filter-bar"] { top: 128px; }
   .lock-card { padding: 28px 20px 22px; }
 }
 

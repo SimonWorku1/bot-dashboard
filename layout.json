@@ -2,6 +2,10 @@
   "owner": "Simon Worku",
   "title": "Assistant desk",
   "subtitle": "A private record of what the assistants have done.",
+  "nav": [
+    { "id": "desk", "label": "Desk" },
+    { "id": "jobs", "label": "Jobs" }
+  ],
   "blocks": [
     {
       "type": "stats-hero",
@@ -68,5 +72,66 @@
       "size": "full",
       "options": { "limit": 8 }
     }
-  ]
+  ],
+  "pages": {
+    "jobs": {
+      "title": "Jobs",
+      "subtitle": "Applications, responses, and outreach.",
+      "blocks": [
+        {
+          "type": "jobs-kpis",
+          "title": "Pipeline",
+          "size": "full",
+          "options": {
+            "scanBot": "Indi",
+            "outreachBot": "Link",
+            "indi": [
+              { "stat": "applications_submitted", "label": "Applications submitted" },
+              { "stat": "applications_in_progress", "label": "In progress" },
+              { "stat": "rejections", "label": "Rejections" },
+              { "stat": "interviews", "label": "Interviews" },
+              { "stat": "jobs_scanned", "label": "Jobs scanned" },
+              { "stat": "applications_blocked", "label": "Blocked" }
+            ],
+            "link": [
+              { "stat": "people_contacted", "label": "People contacted" },
+              { "stat": "people_replied", "label": "People replied" },
+              { "stat": "reply_rate", "label": "Reply rate" },
+              { "stat": "awaiting_reply", "label": "Awaiting reply" }
+            ]
+          }
+        },
+        {
+          "type": "jobs-trend",
+          "title": "Applications over time",
+          "size": "full",
+          "options": { "scanBot": "Indi" }
+        },
+        {
+          "type": "jobs-applications",
+          "title": "Applications",
+          "size": "full",
+          "options": { "scanBot": "Indi", "limit": 6 }
+        },
+        {
+          "type": "jobs-scans",
+          "title": "Recent scans",
+          "size": "half",
+          "options": { "scanBot": "Indi", "limit": 4 }
+        },
+        {
+          "type": "jobs-outreach",
+          "title": "Outreach",
+          "size": "half",
+          "options": { "outreachBot": "Link", "limit": 4 }
+        },
+        {
+          "type": "jobs-note",
+          "title": "How the numbers are counted",
+          "size": "full",
+          "options": { "scanBot": "Indi", "outreachBot": "Link" }
+        }
+      ]
+    }
+  }
 }

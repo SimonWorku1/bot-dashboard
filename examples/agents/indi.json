@@ -2,20 +2,49 @@
   "bot": "Indi",
   "role": "Job scans and applications",
   "updated": "2026-10-30T23:22:00Z",
+  "stats_note": "Sent is an application that left the desk. Heard back is a reply that is not a rejection: an assessment, a recruiter note, or an interview. Rejections are counted on the day they arrived. Interviews are part of heard back and are not also counted as in progress. Blocked roles never became applications.",
   "stats": {
     "tasks_completed": 48,
     "jobs_scanned": 186,
+    "applications_submitted": 14,
     "applied": 14,
+    "applications_in_progress": 5,
+    "rejections": 4,
     "interviews": 3,
+    "applications_blocked": 7,
     "follow_ups": 9
   },
+  "daily": [
+    { "date": "2026-10-10", "sent": 1, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-11", "sent": 0, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-12", "sent": 0, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-13", "sent": 2, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-14", "sent": 1, "heard_back": 1, "rejected": 0 },
+    { "date": "2026-10-15", "sent": 0, "heard_back": 0, "rejected": 1 },
+    { "date": "2026-10-16", "sent": 1, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-17", "sent": 2, "heard_back": 1, "rejected": 0 },
+    { "date": "2026-10-18", "sent": 0, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-19", "sent": 0, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-20", "sent": 1, "heard_back": 0, "rejected": 1 },
+    { "date": "2026-10-21", "sent": 1, "heard_back": 1, "rejected": 0 },
+    { "date": "2026-10-22", "sent": 0, "heard_back": 1, "rejected": 0 },
+    { "date": "2026-10-23", "sent": 2, "heard_back": 0, "rejected": 1 },
+    { "date": "2026-10-24", "sent": 1, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-25", "sent": 0, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-26", "sent": 0, "heard_back": 0, "rejected": 0 },
+    { "date": "2026-10-27", "sent": 1, "heard_back": 1, "rejected": 0 },
+    { "date": "2026-10-28", "sent": 0, "heard_back": 0, "rejected": 1 },
+    { "date": "2026-10-29", "sent": 0, "heard_back": 1, "rejected": 0 },
+    { "date": "2026-10-30", "sent": 1, "heard_back": 0, "rejected": 0 }
+  ],
   "activities": [
     {
       "date": "2026-10-30",
       "title": "Applied to Harborline",
+      "company": "Harborline",
       "summary": "Product operations role. Used the operations resume and named the Paper Kite studio project.",
       "category": "jobs",
-      "status": "done",
+      "status": "in_progress",
       "link": "https://example.com/jobs/harborline-product-ops"
     },
     {
@@ -33,9 +62,25 @@
       "status": "waiting"
     },
     {
+      "date": "2026-10-28",
+      "title": "Applied: Glasspine",
+      "company": "Glasspine",
+      "summary": "Operations role. One-page resume, and the campus-job paragraph stays out.",
+      "category": "jobs",
+      "status": "in_progress",
+      "link": "https://example.com/jobs/glasspine-ops"
+    },
+    {
       "date": "2026-10-27",
       "title": "Tailored a resume for Glasspine",
       "summary": "Operations version, one page. Dropped the older campus-job paragraph.",
+      "category": "jobs",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Scanned 18 new roles",
+      "summary": "Kept Glasspine. Dropped seven that wanted a free trial shift.",
       "category": "jobs",
       "status": "done"
     },
@@ -45,6 +90,40 @@
       "summary": "Little Orbit wanted a free Saturday shift before an interview. Logged it as a no.",
       "category": "jobs",
       "status": "done"
+    },
+    {
+      "date": "2026-10-23",
+      "title": "Applied: Brightfold",
+      "company": "Brightfold",
+      "summary": "Support operations. Sent after the scan kept the posting.",
+      "category": "jobs",
+      "status": "waiting",
+      "link": "https://example.com/jobs/brightfold"
+    },
+    {
+      "date": "2026-10-21",
+      "title": "Applied: Cedar & Rye",
+      "company": "Cedar & Rye",
+      "summary": "They replied with a no two days later. The note was short and final.",
+      "category": "jobs",
+      "status": "rejected",
+      "link": "https://example.com/jobs/cedar-rye"
+    },
+    {
+      "date": "2026-10-20",
+      "title": "Scanned 31 new roles",
+      "summary": "Most were the same posting on a second board. Four were actually new.",
+      "category": "jobs",
+      "status": "done"
+    },
+    {
+      "date": "2026-10-17",
+      "title": "Applied: Lumen Archive",
+      "company": "Lumen Archive",
+      "summary": "Research desk. Used the research resume, not the operations one.",
+      "category": "jobs",
+      "status": "done",
+      "link": "https://example.com/jobs/lumen-archive"
     }
   ]
 }

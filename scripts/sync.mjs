@@ -10,6 +10,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isCalendarDay } from '../js/format.js';
 
 export const MIN_ITERATIONS = 250_000;
 export const ITERATIONS = 250_000;
@@ -168,6 +169,34 @@ function normalizeUpcoming(raw) {
   return item;
 }
 
+function coerceCount(value) {
+  if (value == null || value === '') return 0;
+  if (typeof value === 'number' && Number.isFinite(value) && value >= 0) return value;
+  if (typeof value === 'string' && /^\d+(\.\d+)?$/.test(value.trim())) {
+    const number = Number(value.trim());
+    if (Number.isFinite(number) && number >= 0) return number;
+  }
+  return null;
+}
+
+function normalizeDaily(raw) {
+  if (!Array.isArray(raw)) return [];
+  const out = [];
+  for (const row of raw.slice(0, 800)) {
+    if (!isPlainObject(row)) continue;
+    const date = asString(row.date).slice(0, 10);
+    if (!isCalendarDay(date)) continue;
+    const sent = coerceCount(row.sent);
+    const heard = coerceCount(row.heard_back);
+    const rejected = coerceCount(row.rejected);
+    if (sent == null || heard == null || rejected == null) continue;
+    const point = { date, sent, heard_back: heard, rejected };
+    copyPrimitiveExtras(point, row, new Set(['date', 'sent', 'heard_back', 'rejected']));
+    out.push(point);
+  }
+  return out;
+}
+
 function normalizeUpload(raw) {
   if (!isPlainObject(raw)) return null;
   const title = asString(raw.title);
@@ -223,8 +252,12 @@ export function normalizeBot(raw, filename) {
     const uploads = raw.uploads.map(normalizeUpload).filter(Boolean);
     if (uploads.length) botObj.uploads = uploads;
   }
+  if (Array.isArray(raw.daily)) {
+    const daily = normalizeDaily(raw.daily);
+    if (daily.length) botObj.daily = daily;
+  }
 
-  const known = new Set(['bot', 'role', 'updated', 'stats', 'activities', 'upcoming', 'uploads']);
+  const known = new Set(['bot', 'role', 'updated', 'stats', 'activities', 'upcoming', 'uploads', 'daily']);
   for (const [key, value] of Object.entries(raw)) {
     if (known.has(key) || !validKey(key)) continue;
     const clean = sanitize(value, 1);

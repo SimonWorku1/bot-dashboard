@@ -119,7 +119,7 @@ export function categoryChip(category) {
 }
 
 const KNOWN_STATUSES = new Set([
-  'done', 'in_progress', 'waiting', 'published', 'scheduled', 'editing', 'draft', 'other',
+  'done', 'in_progress', 'waiting', 'published', 'scheduled', 'editing', 'draft', 'rejected', 'other',
 ]);
 
 export function statusChip(status) {
