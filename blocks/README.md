@@ -59,3 +59,7 @@ Colors, blur, and corner radius live in `css/tokens.css`, not in the block.
 `layout.json` may include `nav` and `pages`. The desk itself stays in `blocks`. Each page has a `title`, a `subtitle`, and a `blocks` array in the same shape. The jobs page is `pages.jobs`, opened at `#jobs`.
 
 Indi may include `daily` (`date`, `sent`, `heard_back`, `rejected`) and a `stats_note` string. The jobs blocks read those. `heard_back` means a non-rejection response. If `daily` is missing, the chart derives sent from activities titled `Applied:` and leaves the other two lines at 0.
+
+Indi may also include `assessments`. `jobs-assessments` renders that array. Each item is `{ company, role, kind, duration, due, due_note, link, status, assessment_id }`. `due` is an ISO datetime with a Pacific offset, or null when the deadline is unknown. `status` is `pending`, `done`, or `expired`. `assessment_id` is optional.
+
+Pending rows sort by `due`, soonest first. Rows with no deadline come last. `done` rows are hidden. `expired` rows sit in a collapsed Past section, dimmed. Overdue rows, and rows due within 48 hours, are highlighted. Each row’s primary link opens the assessment. When `assessment_id` is present it is shown as copyable text. If `assessments` is missing, or every item is `done`, the block shows an empty state. `options.scanBot` defaults to Indi.

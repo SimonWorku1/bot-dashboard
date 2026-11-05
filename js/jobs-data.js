@@ -98,6 +98,32 @@ export function axisMax(value) {
   return step * pow;
 }
 
+export const ASSESSMENT_SOON_MS = 48 * 60 * 60 * 1000;
+
+export function partitionAssessments(list, now = new Date()) {
+  const pending = [];
+  const expired = [];
+  if (!Array.isArray(list)) return { pending, expired };
+  for (const raw of list) {
+    const item = cleanAssessment(raw);
+    if (!item || item.status === 'done') continue;
+    item.urgency = item.status === 'expired' ? 'expired' : assessmentUrgency(item.due, now);
+    if (item.status === 'expired') expired.push(item);
+    else pending.push(item);
+  }
+  pending.sort(compareByDue);
+  expired.sort(compareExpired);
+  return { pending, expired };
+}
+
+export function assessmentUrgency(due, now = new Date()) {
+  if (!due) return 'none';
+  const delta = due.getTime() - now.getTime();
+  if (delta < 0) return 'overdue';
+  if (delta <= ASSESSMENT_SOON_MS) return 'soon';
+  return 'later';
+}
+
 export function tileSpecs(option, fallback) {
   const source = Array.isArray(option) && option.length ? option : fallback;
   return source
@@ -106,6 +132,69 @@ export function tileSpecs(option, fallback) {
       stat: item.stat.trim(),
       label: typeof item.label === 'string' && item.label.trim() ? item.label.trim() : item.stat.trim(),
     }));
+}
+
+function cleanAssessment(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const company = textField(raw.company);
+  const role = textField(raw.role);
+  if (!company && !role) return null;
+  const dueIso = typeof raw.due === 'string' ? raw.due.trim() : '';
+  return {
+    company,
+    role,
+    kind: textField(raw.kind),
+    duration: textField(raw.duration),
+    due: parseDue(raw.due),
+    dueIso,
+    dueNote: textField(raw.due_note),
+    link: textField(raw.link),
+    status: assessmentStatus(raw.status),
+    assessmentId: textField(raw.assessment_id),
+  };
+}
+
+function textField(value) {
+  if (typeof value === 'string') return value.trim();
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  return '';
+}
+
+function assessmentStatus(value) {
+  const raw = String(value ?? '').trim().toLowerCase().replace(/[\s-]+/g, '_');
+  if (raw === 'done' || raw === 'expired' || raw === 'pending') return raw;
+  return raw || 'pending';
+}
+
+function parseDue(value) {
+  if (value == null || value === '') return null;
+  if (typeof value !== 'string' && typeof value !== 'number') return null;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function compareByDue(a, b) {
+  return compareDue(a, b, 1);
+}
+
+function compareExpired(a, b) {
+  return compareDue(a, b, -1);
+}
+
+function compareDue(a, b, direction) {
+  const left = a.due ? a.due.getTime() : null;
+  const right = b.due ? b.due.getTime() : null;
+  if (left == null && right == null) return tieAssessment(a, b);
+  if (left == null) return 1;
+  if (right == null) return -1;
+  if (left !== right) return (left - right) * direction;
+  return tieAssessment(a, b);
+}
+
+function tieAssessment(a, b) {
+  const company = a.company.localeCompare(b.company);
+  if (company) return company;
+  return a.role.localeCompare(b.role);
 }
 
 function cleanDaily(daily) {

@@ -37,6 +37,69 @@
     { "date": "2026-10-29", "sent": 0, "heard_back": 1, "rejected": 0 },
     { "date": "2026-10-30", "sent": 1, "heard_back": 0, "rejected": 0 }
   ],
+  "assessments": [
+    {
+      "company": "IBM",
+      "role": "Software developer",
+      "kind": "Coding test",
+      "duration": "90 min",
+      "due": "2026-10-22T17:00:00-07:00",
+      "due_note": "Submitted.",
+      "link": "https://example.com/assessments/ibm",
+      "status": "done"
+    },
+    {
+      "company": "Brightfold",
+      "role": "Support operations",
+      "kind": "Recruiter screen",
+      "duration": "30 min",
+      "due": null,
+      "due_note": "No window yet. They send it after a recruiter reply.",
+      "link": "https://example.com/assessments/brightfold",
+      "status": "pending"
+    },
+    {
+      "company": "Rokt",
+      "role": "Software engineer",
+      "kind": "Criteria",
+      "duration": "75 min",
+      "due": "2026-11-06T17:00:00-08:00",
+      "due_note": "Enter the Criteria ID on the vendor site, then start the test.",
+      "link": "https://example.com/assessments/rokt",
+      "status": "pending",
+      "assessment_id": "C-204817"
+    },
+    {
+      "company": "Lumen Archive",
+      "role": "Research assistant",
+      "kind": "Writing sample",
+      "duration": "60 min",
+      "due": "2026-10-28T18:00:00-07:00",
+      "due_note": "The writing window closed.",
+      "link": "https://example.com/assessments/lumen",
+      "status": "expired"
+    },
+    {
+      "company": "Harborline",
+      "role": "Product operations",
+      "kind": "Case exercise",
+      "duration": "2 hours",
+      "due": "2026-11-09T09:00:00-08:00",
+      "due_note": "A written case. The operations resume is the one they have.",
+      "link": "https://example.com/assessments/harborline",
+      "status": "pending"
+    },
+    {
+      "company": "Glasspine",
+      "role": "Operations associate",
+      "kind": "Work sample",
+      "duration": "90 min",
+      "due": "2026-11-04T17:00:00-08:00",
+      "due_note": "They asked for the sample by Wednesday evening.",
+      "link": "https://example.com/assessments/glasspine",
+      "status": "pending"
+    }
+  ],
   "activities": [
     {
       "date": "2026-10-30",

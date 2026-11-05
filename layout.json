@@ -76,8 +76,14 @@
   "pages": {
     "jobs": {
       "title": "Jobs",
-      "subtitle": "Applications, responses, and outreach.",
+      "subtitle": "Assessments, applications, and outreach.",
       "blocks": [
+        {
+          "type": "jobs-assessments",
+          "title": "Pending assessments",
+          "size": "full",
+          "options": { "scanBot": "Indi" }
+        },
         {
           "type": "jobs-kpis",
           "title": "Pipeline",

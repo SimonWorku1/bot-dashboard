@@ -19,7 +19,7 @@ In the repo settings, set GitHub Pages to deploy from branch `main` and folder `
 - toob’s uploads, with status and views
 - highlights, a category chart, one card per bot, and a timeline
 
-The nav under the title opens the desk and a Jobs page (`#jobs`). That page is `pages.jobs` in `layout.json`, built from the same kind of blocks. It charts applications sent, heard back, and rejected, then lists Indi’s applications, recent scans, and Link’s outreach.
+The nav under the title opens the desk and a Jobs page (`#jobs`). That page is `pages.jobs` in `layout.json`, built from the same kind of blocks. It lists pending assessments by deadline, charts applications sent, heard back, and rejected, then lists Indi’s applications, recent scans, and Link’s outreach.
 
 Each bot card shows that bot’s `updated` time as a relative time (`2h ago`). Bots do not all refresh on the same schedule. Dash-style bots move after an action, schooly about daily, toob about twice a week. The timestamp is the freshness signal.
 
@@ -59,6 +59,8 @@ Activity `category` is usually `jobs`, `school`, `social`, `finance`, `coding`, 
 `upcoming` is optional (schooly). `uploads` is optional (toob). Both are rendered only by their blocks.
 
 `daily` is optional (Indi). Each point is `{ "date": "YYYY-MM-DD", "sent": 0, "heard_back": 0, "rejected": 0 }`. `heard_back` is a response that is not a rejection, such as an assessment, a recruiter reply, or an interview. The jobs page charts those three counts by day, with a cumulative view. If `daily` is missing, the chart counts activities whose title starts with `Applied:` as sent, and shows heard back and rejected as 0.
+
+`assessments` is optional (Indi). Each item is `{ "company", "role", "kind", "duration", "due", "due_note", "link", "status", "assessment_id" }`. `due` is an ISO datetime with a Pacific offset, or null. `status` is `pending`, `done`, or `expired`. The Jobs page lists pending items soonest deadline first, hides `done`, and tucks `expired` into a collapsed Past section. `assessment_id`, when present, is the code to enter on the vendor site.
 
 `stats_note` is an optional string. The jobs page shows it collapsed.
 
