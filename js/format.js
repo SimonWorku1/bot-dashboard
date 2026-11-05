@@ -158,3 +158,22 @@ export function absoluteTime(iso) {
     timeStyle: 'short',
   }).format(then);
 }
+
+const PACIFIC = 'America/Los_Angeles';
+
+export function pacificStamp(date, now = new Date()) {
+  const then = date instanceof Date ? date : new Date(date);
+  if (Number.isNaN(then.getTime())) return '';
+  const year = new Intl.DateTimeFormat('en-US', { timeZone: PACIFIC, year: 'numeric' });
+  const options = {
+    timeZone: PACIFIC,
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: 'short',
+  };
+  if (year.format(then) !== year.format(now)) options.year = 'numeric';
+  return new Intl.DateTimeFormat('en-US', options).format(then);
+}

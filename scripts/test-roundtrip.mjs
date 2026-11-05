@@ -9,16 +9,19 @@ import {
   formatStat,
   humanizeKey,
   isCalendarDay,
+  pacificStamp,
   relativeTime,
   safeUrl,
 } from '../js/format.js';
 import {
   applicationSeries,
+  assessmentUrgency,
   axisMax,
   companyName,
   cumulative,
   isApplication,
   isScan,
+  partitionAssessments,
   responseRate,
 } from '../js/jobs-data.js';
 import { navItems, pageIdFromHash, resolvePage } from '../js/pages.js';
@@ -137,9 +140,48 @@ await check('layout blocks load', async () => {
     assert.ok(types.includes(required), required);
   }
   const jobs = layout.pages.jobs.blocks.map((block) => block.type);
-  for (const required of ['jobs-kpis', 'jobs-trend', 'jobs-applications', 'jobs-scans', 'jobs-outreach', 'jobs-note']) {
+  for (const required of ['jobs-assessments', 'jobs-kpis', 'jobs-trend', 'jobs-applications', 'jobs-scans', 'jobs-outreach', 'jobs-note']) {
     assert.ok(jobs.includes(required), required);
   }
+  assert.ok(jobs.indexOf('jobs-assessments') < jobs.indexOf('jobs-kpis'));
+});
+
+await check('assessment order', async () => {
+  const now = new Date('2026-11-05T20:09:00Z');
+  const grouped = partitionAssessments([
+    { company: 'IBM', role: 'Software developer', kind: 'Coding test', duration: '90 min', due: '2026-10-22T17:00:00-07:00', status: 'DONE', link: 'https://example.com/ibm' },
+    { company: 'Brightfold', role: 'Support', kind: 'Screen', duration: '30 min', due: null, due_note: 'No window', status: 'pending', link: 'https://example.com/b' },
+    { company: 'Rokt', role: 'Engineer', kind: 'Criteria', duration: '75 min', due: '2026-11-06T17:00:00-08:00', status: 'pending', assessment_id: 'C-204817', link: 'https://example.com/r' },
+    { company: 'Lumen Archive', role: 'Research', kind: 'Writing', duration: '60 min', due: '2026-10-28T18:00:00-07:00', status: 'expired', link: 'https://example.com/l' },
+    { company: 'Older', role: 'Research', kind: 'Quiz', duration: '20 min', due: '2026-10-01T12:00:00-07:00', status: 'expired', link: 'https://example.com/o' },
+    { company: 'Harborline', role: 'Product ops', kind: 'Case', duration: '2 hours', due: '2026-11-09T09:00:00-08:00', status: 'pending', link: 'https://example.com/h' },
+    { company: 'Glasspine', role: 'Ops', kind: 'Work sample', duration: '90 min', due: '2026-11-04T17:00:00-08:00', status: 'pending', link: 'https://example.com/g' },
+    { company: 'Zed', role: 'B', due: '2026-11-10T12:00:00-08:00', status: 'pending' },
+    { company: 'Ada', role: 'A', due: '2026-11-10T12:00:00-08:00', status: 'pending' },
+    { company: '', role: '', status: 'pending' },
+    null,
+  ], now);
+  assert.deepEqual(grouped.pending.map((item) => item.company), [
+    'Glasspine', 'Rokt', 'Harborline', 'Ada', 'Zed', 'Brightfold',
+  ]);
+  assert.equal(grouped.pending.some((item) => item.company === 'IBM'), false);
+  assert.equal(grouped.expired.some((item) => item.company === 'IBM'), false);
+  assert.deepEqual(grouped.expired.map((item) => item.company), ['Lumen Archive', 'Older']);
+  assert.equal(grouped.pending[0].urgency, 'overdue');
+  assert.equal(grouped.pending[1].urgency, 'soon');
+  assert.equal(grouped.pending[1].assessmentId, 'C-204817');
+  assert.equal(grouped.pending[2].urgency, 'later');
+  assert.equal(grouped.pending.at(-1).urgency, 'none');
+  assert.equal(grouped.pending.at(-1).dueNote, 'No window');
+  const edge = new Date('2026-11-05T20:00:00Z');
+  assert.equal(assessmentUrgency(new Date(edge.getTime() + 48 * 60 * 60 * 1000), edge), 'soon');
+  assert.equal(assessmentUrgency(new Date(edge.getTime() + 48 * 60 * 60 * 1000 + 1), edge), 'later');
+  assert.equal(assessmentUrgency(new Date(edge.getTime() - 1), edge), 'overdue');
+  assert.equal(assessmentUrgency(null, edge), 'none');
+  assert.deepEqual(partitionAssessments(undefined, now), { pending: [], expired: [] });
+  const stamp = pacificStamp(new Date('2026-11-06T17:00:00-08:00'), now);
+  assert.match(stamp, /Nov/);
+  assert.match(stamp, /PST|PDT/);
 });
 
 await check('encrypt in node, decrypt with webcrypto', async () => {
@@ -156,6 +198,29 @@ await check('encrypt in node, decrypt with webcrypto', async () => {
     updated: '2026-10-30T23:00:00Z',
     mood: 'steady',
     extra_list: [{ name: 'keep' }],
+    assessments: [
+      {
+        company: 'Rokt',
+        role: 'Engineer',
+        kind: 'Criteria',
+        duration: '75 min',
+        due: '2026-11-06T17:00:00-08:00',
+        due_note: 'Enter the ID',
+        link: 'https://example.com/rokt',
+        status: 'pending',
+        assessment_id: 'RK-1',
+      },
+      {
+        company: 'Quiet Co',
+        role: 'Ops',
+        kind: 'screen',
+        duration: '20 min',
+        due: null,
+        due_note: 'No window yet',
+        link: 'https://example.com/quiet',
+        status: 'pending',
+      },
+    ],
     daily: [
       { date: '2026-10-30', sent: 2, heard_back: 1, rejected: 0, source: 'desk' },
       { date: 'nope', sent: 4, heard_back: 0, rejected: 0 },
@@ -240,6 +305,10 @@ await check('encrypt in node, decrypt with webcrypto', async () => {
   assert.equal(indiBot.activities.find((item) => item.title.startsWith('Secret')).category, 'jobs');
   assert.equal(indiBot.activities.find((item) => item.title === 'Earlier').category, 'errands');
   assert.equal(indiBot.stats.reply_rate, 0.5);
+  assert.equal(indiBot.assessments.find((item) => item.company === 'Rokt').assessment_id, 'RK-1');
+  assert.equal(indiBot.assessments.find((item) => item.company === 'Rokt').due, '2026-11-06T17:00:00-08:00');
+  assert.equal(indiBot.assessments.find((item) => item.company === 'Quiet Co').due, null);
+  assert.equal(indiBot.assessments.find((item) => item.company === 'Quiet Co').due_note, 'No window yet');
   assert.ok(opened.data.bots.find((bot) => bot.bot === 'schooly').upcoming.length === 2);
   assert.equal(opened.data.bots.find((bot) => bot.bot === 'toob').uploads[0].views, 10);
   assert.equal(safeUrl(indiBot.activities.find((item) => item.title === 'Earlier').link), '');
@@ -257,6 +326,7 @@ await check('encrypt in node, decrypt with webcrypto', async () => {
     bot: indi.bot,
     daily: indi.daily.slice().reverse(),
     extra_list: indi.extra_list,
+    assessments: indi.assessments,
   }, null, 2));
   const second = syncFeed({ dir: agents, passcode: pass, out });
   assert.equal(second.changed, false);
@@ -309,6 +379,18 @@ await check('sample feed unlocks with demo', async () => {
   assert.equal(sampleIndi.daily.reduce((sum, row) => sum + row.rejected, 0), 4);
   assert.equal(typeof sampleIndi.stats_note, 'string');
   assert.ok(sampleIndi.stats_note.includes('Heard back'));
+  assert.ok(Array.isArray(sampleIndi.assessments));
+  assert.equal(sampleIndi.assessments.find((item) => item.company === 'IBM').status, 'done');
+  assert.equal(sampleIndi.assessments.find((item) => item.company === 'Rokt').assessment_id, 'C-204817');
+  assert.equal(sampleIndi.assessments.find((item) => item.company === 'Brightfold').due, null);
+  const viewedAt = new Date('2026-11-05T20:09:00Z');
+  const visible = partitionAssessments(sampleIndi.assessments, viewedAt);
+  assert.deepEqual(visible.pending.map((item) => item.company), ['Glasspine', 'Rokt', 'Harborline', 'Brightfold']);
+  assert.equal(visible.pending.some((item) => item.company === 'IBM'), false);
+  assert.equal(visible.expired.some((item) => item.company === 'IBM'), false);
+  assert.deepEqual(visible.expired.map((item) => item.company), ['Lumen Archive']);
+  assert.equal(visible.pending[0].urgency, 'overdue');
+  assert.equal(visible.pending[1].urgency, 'soon');
   const sampleLink = opened.data.bots.find((bot) => bot.bot === 'Link');
   assert.equal(sampleLink.stats.reply_rate, 0.262);
   assert.equal(sampleLink.stats.awaiting_reply, 18);
